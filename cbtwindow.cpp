@@ -158,44 +158,7 @@ void CBTWindow::paintEvent(QPaintEvent *event)
 
 }
 
-void CBTWindow::setMyPoints()
-{
 
-       //设置父节点和子节点间横坐标相差的距离
-       QQueue<Node*> q;
-       Node *p = tree->root;
-       tree->root->point = QPoint(350,100);  //为根节点设置坐标
-       q.enqueue(tree->root);
-       myPoints.push_back(tree->root->point);
-
-       int d = 0;
-
-       //通过层次遍历，完成各个坐标的匹配
-       while(!q.isEmpty())
-       {
-           d = 10;
-           p=q.dequeue();
-           if(p->left!=nullptr)
-           {
-
-               p->left->point = (p->point-QPoint(45,-100));
-               myPoints.push_back(p->left->point);
-               myLines.push_back(QLine(p->point.x(),p->point.y(),p->left->point.x(),p->left->point.y()));//线
-               q.enqueue(p->left);
-           }
-
-           if(p->right!=nullptr)
-           {
-
-               p->right->point = (p->point-QPoint(-45,-100));
-               myPoints.push_back(p->right->point);
-               myLines.push_back(QLine(p->point.x(),p->point.y(),p->right->point.x(),p->right->point.y()));//线
-               q.enqueue(p->right);
-           }
-       }
-
-
-}
 
 CBTWindow::~CBTWindow()
 {
