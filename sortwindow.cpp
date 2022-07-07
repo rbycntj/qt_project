@@ -1100,7 +1100,9 @@ void SortWindow::bucketSorting()
 
 void SortWindow::merge(int start1, int end1, int start2, int end2)
 {
-
+    if (!sorting) {
+        return;
+    }
     int i = start1, j = start2;
     int n = (end1 - start1 + 1) + (end2 - start2 + 1);
     int* temp = new int[n];
