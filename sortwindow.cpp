@@ -1,4 +1,4 @@
-#include "sortwindow.h"
+﻿#include "sortwindow.h"
 #include "ui_sortwindow.h"
 #include "mainwindow.h"
 #include <QtGlobal>
@@ -740,6 +740,9 @@ int SortWindow::partition(int low, int high)
 
         if(smallToLarge){
             while(low < high && rectProxyItems[high]->item->getValue() >= privotKey) {
+                if (!sorting) {
+                    return -1;
+                }
                 totalStepCount++;
                 --high; //从high 所指位置向前搜索，至多到low+1 位置。将比基准元素小的交换到低端
                 static_cast<QLabel*>(labelNumK->widget())->setText("high="+QString::number(high));
@@ -757,6 +760,9 @@ int SortWindow::partition(int low, int high)
 
 
             while(low < high && rectProxyItems[low]->item->getValue()  <= privotKey ) {
+                if (!sorting) {
+                    return -1;
+                }
                 totalStepCount++;
                 ++low;
                 static_cast<QLabel*>(labelNumJ->widget())->setText("low="+QString::number(low)+",low<high="+QString::number(high));
@@ -782,6 +788,9 @@ int SortWindow::partition(int low, int high)
         }
         else{
             while(low < high && rectProxyItems[high]->item->getValue() < privotKey) {
+                if (!sorting) {
+                    return -1;
+                }
                 totalStepCount++;
                 --high; //从high 所指位置向前搜索，至多到low+1 位置。将比基准元素小的交换到低端
                 static_cast<QLabel*>(labelNumK->widget())->setText("high="+QString::number(high));
@@ -800,6 +809,9 @@ int SortWindow::partition(int low, int high)
             widgetSwapAni(arrowLabelGuard,rectProxyItems[guardPos],1);
 
             while(low < high && rectProxyItems[low]->item->getValue()  > privotKey ) {
+                if (!sorting) {
+                    return -1;
+                }
                 totalStepCount++;
                 ++low;
                 static_cast<QLabel*>(labelNumJ->widget())->setText("low="+QString::number(low)+",low<high="+QString::number(high));
