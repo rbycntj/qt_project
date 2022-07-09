@@ -31,13 +31,6 @@ public:
     bool isEmpty() const;
     bool insert(const T &);
     void resetTree();
-    void preOrderTraversal() const;
-    void inOrderTraversal() const;
-    void postOrderTraversal() const;
-    QString getPreOrderTraversal() const;
-    QString getInOrderTraversal() const;
-    QString getPostOrderTraversal() const;
-    QString getBreadthFirstSearch();
     int getNodeCount() const;
     int getLeafNodeCount() const;
     int getTreeHeight() const;
@@ -55,9 +48,6 @@ private:
     int nodeRadius;
     double scale;
     int max(int a, int b) const;
-    void recursivePreOrder(const BSTNode<T> *) const;
-    void recursiveInOrder(const BSTNode<T> *) const;
-    void recursivePostOrder(const BSTNode<T> *) const;
     int recursiveCountNodes(const BSTNode<T> *) const;
     int recursiveCountLeafNodes(const BSTNode<T> *) const;
     int recursiveComputeHeightOfTree(const BSTNode<T> *) const;
@@ -186,27 +176,6 @@ void BinarySearchTree<T>::resetTree()
 {
     recursiveDeleteNodes(root);
     root = 0;
-    return;
-}
-
-template<typename T>
-void BinarySearchTree<T>::preOrderTraversal() const
-{
-    recursivePreOrder(root);
-    return;
-}
-
-template<typename T>
-void BinarySearchTree<T>::inOrderTraversal() const
-{
-    recursiveInOrder(root);
-    return;
-}
-
-template<typename T>
-void BinarySearchTree<T>::postOrderTraversal() const
-{
-    recursivePostOrder(root);
     return;
 }
 
@@ -396,149 +365,6 @@ bool BinarySearchTree<T>::find(T item) const
 
     return false;
 }
-
-
-template<typename T>
-void BinarySearchTree<T>::recursivePreOrder(const BSTNode<T> *node) const
-{
-    if (node == 0)
-        return;
-    std::cout << node->data << " ";
-    recursivePreOrder(node->leftChild);
-    recursivePreOrder(node->rightChild);
-
-    return;
-}
-
-template<typename T>
-void BinarySearchTree<T>::recursiveInOrder(const BSTNode<T> *node) const
-{
-    if (node == 0)
-        return;
-    recursiveInOrder(node->leftChild);
-    std::cout << node->data << " ";
-    recursiveInOrder(node->rightChild);
-
-    return;
-}
-
-template<typename T>
-void BinarySearchTree<T>::recursivePostOrder(const BSTNode<T> *node) const
-{
-    if (node == 0)
-        return;
-    recursivePostOrder(node->leftChild);
-    recursivePostOrder(node->rightChild);
-    std::cout << node->data << " ";
-
-    return;
-}
-
-template<typename T>
-QString BinarySearchTree<T>::getPreOrderTraversal() const
-{
-    QStack<BSTNode<T>*> stack;
-    QString traversal;
-    BSTNode<T> *root = this->root;
-    while (true) {
-
-        while (root != 0) {
-            traversal.append(QString::number(root->data) + " ");
-            stack.push(root);
-            root = root->leftChild;
-        }
-
-        if (stack.isEmpty()) {
-            return traversal;
-        }
-
-        root = stack.pop();
-        root = root->rightChild;
-    }
-}
-
-template<typename T>
-QString BinarySearchTree<T>::getInOrderTraversal() const
-{
-    QStack<BSTNode<T>*> stack;
-    QString traversal;
-    BSTNode<T> *root = this->root;
-    while (true) {
-
-        while (root != 0) {
-            stack.push(root);
-            root = root->leftChild;
-        }
-
-        if (stack.isEmpty()) {
-            return traversal;
-        }
-
-        root = stack.pop();
-        traversal.append(QString::number(root->data) + " ");
-        root = root->rightChild;
-    }
-}
-
-template<typename T>
-QString BinarySearchTree<T>::getPostOrderTraversal() const
-{
-
-    if (this->isEmpty())
-            return QString("");
-    QStack<BSTNode<T>*> stack1;
-    QStack<BSTNode<T>*> stack2;
-    QString traversal;
-    BSTNode<T> *root = this->root;
-    stack1.push(root);
-    while (!stack1.isEmpty())
-    {
-
-        BSTNode<T> *temp = stack1.pop();
-        stack2.push(temp);
-
-
-        if (temp->leftChild != 0)
-            stack1.push(temp->leftChild);
-        if (temp->rightChild != 0)
-            stack1.push(temp->rightChild);
-    }
-
-    while(!stack2.isEmpty())
-        traversal.append(QString::number(stack2.pop()->data) + " ");
-
-    return traversal;
-}
-
-template<typename T>
-QString BinarySearchTree<T>::getBreadthFirstSearch()
-{
-    QString traversal("");
-
-    BSTNode<T> *traverse;
-
-    if (this->root == 0)
-        return traversal;
-
-    QQueue<BSTNode<T>*> ptrQueue;
-
-    ptrQueue.enqueue(this->root);
-
-    while (!ptrQueue.isEmpty()) {
-        traverse = ptrQueue.dequeue();
-
-        traversal.append(QString::number(traverse->data) + " ");
-
-        if (traverse->leftChild != 0)
-        ptrQueue.enqueue(traverse->leftChild);
-
-        if (traverse->rightChild != 0)
-        ptrQueue.enqueue(traverse->rightChild);
-    }
-
-    return traversal;
-}
-
 
 template<typename T>
 int BinarySearchTree<T>::recursiveCountNodes(const BSTNode<T> *node) const
